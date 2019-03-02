@@ -3,48 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Fiolek</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="stylecontact.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
 </head>
 <body>
 <div class="container">
     <nav class="navbar navbar-light bg-light">
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">Blog</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">Quiz</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">Kontakt</a>
-        </li>
-    </ul>
-    </nav>
-
-
-
-
-    
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Główna</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Quiz</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="contact.html">Kontakt</a>
+            </li>
+        </ul>
+        </nav>
+</div>
+<div class="container" id="container-contact">
+        <div class="form">
+    <div class="container">
         <form>
-            <div class="container">
+            
             <div class="form-group">
                 <label for="name">Podaj imię</label>
-                    <input type="text" class="form-control" id="name" value="podaj imie">
+                    <input type="text" class="form-control" id="name" placeholder="podaj imie">
                 <label for="secondname">Podaj nazwisko</label>
-                    <input type="text" class="form-control" id="secondname" value="podaj nazwisko">
+                    <input type="text" class="form-control" id="secondname" placeholder="podaj nazwisko">
                 <label for="email">Podaj email</label>
-                    <input type="email" class="form-control" id="email" value="podaj e-mail">
+                    <input type="email" class="form-control" id="email" placeholder="podaj e-mail">
                         <small id="emailHelp" class="form-text text-muted">Nie udostępniamy twojego maila osobom trzecim.</small>
             </div>
             <div class="form-group">
                 <label>Płeć</label> </br>
-            
-            
                 <label for="men">Mężczyzna</label>
                     <input type="radio" name="exampleRadios" id="men" unchecked>
                 <label for="women">Kobieta</label>
@@ -52,7 +49,7 @@
             </div>
             <div class="form-group">
                 <label for="area">Opis</label>
-                <input type="textarea" class="form-control" id="area">
+                <textarea class="form-control" id="area"></textarea>
             </div>
             <div class="form-group">
                 <label for="wiek">Wiek:</label>
@@ -66,10 +63,14 @@
                     </select>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-outline-secondary">Wyczyść</button>   
+                <button type="submit" class="btn btn-outline-secondary">Wyślij</button>
             </div>
-        </div>
+        
         </form>
+    </div>
+</div>  
+</div>
     </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

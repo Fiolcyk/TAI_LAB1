@@ -1,0 +1,23 @@
+.nav_ul{
+    display:inline;
+}
+.nav_li{
+    display:inline;
+}
+.container{
+    
+}
+#container-contact{
+    display:flex;
+    margin-top:5%;
+    justify-content: center;
+    
+}
+.form{
+    border:1px solid black;
+    border-radius:20px;
+    background:#eee;
+    padding:2%;
+    width:50%;
+    
+}
