@@ -4,3 +4,12 @@
 .nav_li{
     display:inline;
 }
+.footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+ 
+}
+.footerText{
+
+}
