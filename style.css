@@ -1,15 +1,28 @@
-.nav_ul{
-    display:inline;
-}
-.nav_li{
-    display:inline;
-}
 .footer{
     display: flex;
     flex-direction: row;
     justify-content: center;
- 
+    text-align: center;
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background-color :white;
+    padding: 1px 0;
+    
 }
-.footerText{
-
+.container{
+    margin-bottom:50px;
+}
+.mojaZmienna{
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.fab,.fas{
+    font-size:40px;
+}
+.footForm{
+    justify-content: center;
+    display:flex;
 }
