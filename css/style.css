@@ -1,3 +1,8 @@
+html {
+    scroll-behavior: smooth;
+  }
+  
+
 .footer{
     display: flex;
     flex-direction: row;
@@ -10,6 +15,13 @@
     padding: 1px 0;
     
 }
+.scroll {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+}
+
 .container{
     margin-bottom:50px;
 }
