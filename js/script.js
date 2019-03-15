@@ -183,10 +183,15 @@ let restart =  document.querySelector('.restart');
 let endPoints = document.querySelector('.userScorePoint');
 let reset = document.querySelector('.reset');
 let actualGamePoints = document.querySelector('.actualGamePoints');
+let userTimesPlayed = document.querySelector('.userTimesPlayed');
 let index = 0;
 let questionNumber = 1;
 let points = 0;
 let flag = [];
+let userScoreReset = document.querySelector(".userScoreReset");
+
+// interval timer
+interval = setInterval(updateInterval,1000);
 
 // Action onClick buttons
 restart.addEventListener('click',retakeQuiz);
@@ -292,7 +297,7 @@ function endGame(){
         if(flag[i]=="true"){
             counter ++;
         }
-        if(counter == preQuestions.length){
+        if(counter == 4){
             results.style.display = "block";
             next.style.display = "none";
             previous.style.display = "none";
@@ -328,7 +333,9 @@ function previousClick(){
     }
     endGame();
 }
-
+function updateInterval(){
+    
+}
 
 function saveAveragePoints(){
 
@@ -346,14 +353,17 @@ function saveAveragePoints(){
         console.log("timesPlayed"+timesPlayed);
         let average = sum / timesPlayed;
         endPoints.innerText = average;
+        userTimesPlayed.innerText = timesPlayed;
         localStorage.setItem("sumScore", sum);
         localStorage.setItem("timesPlayed", timesPlayed);
     }
 }
+
 function resetStatistic(){
     localStorage.removeItem("sumScore");
     localStorage.removeItem("timesPlayed");
     localStorage.setItem("sumScore",0);
     localStorage.setItem("timesPlayed",0);
+    userScoreReset.innerHTML = '<span class="userScoreResetText">Twoje statystyki zostały zresetowane</span>';
     
 }
