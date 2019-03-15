@@ -181,8 +181,8 @@ let questionElem = document.querySelector('.questionNumber');
 let results = document.querySelector('.results');
 let restart =  document.querySelector('.restart');
 let endPoints = document.querySelector('.userScorePoint');
-
-
+let reset = document.querySelector('.reset');
+let actualGamePoints = document.querySelector('.actualGamePoints');
 let index = 0;
 let questionNumber = 1;
 let points = 0;
@@ -192,7 +192,7 @@ let flag = [];
 restart.addEventListener('click',retakeQuiz);
 next.addEventListener('click',nextClick);
 previous.addEventListener('click',previousClick);
-
+reset.addEventListener('click',resetStatistic);
 question.innerHTML = preQuestions[index].question;
 for(let i = 0; i < answers.length; i++){
     answers[i].innerHTML = preQuestions[index].answers[i];
@@ -296,10 +296,12 @@ function endGame(){
             results.style.display = "block";
             next.style.display = "none";
             previous.style.display = "none";
+            saveAveragePoints();
+            actualGamePoints.innerText = points;
         }
     }  
-    endPoints.innerText = points;
-
+   
+    
 }
 
  function nextClick(){
@@ -310,8 +312,7 @@ function endGame(){
         enableAnswers();
         questionNumber++;
         NumberQuestion();
-        checkFlag();
-        
+        checkFlag();     
     }
     endGame();
 }
@@ -324,10 +325,35 @@ function previousClick(){
         questionNumber--;
         NumberQuestion();
         checkFlag();
-        
     }
     endGame();
 }
 
 
+function saveAveragePoints(){
 
+    if( localStorage.getItem("sumScore") === null && localStorage.getItem("timesPlayed") === null){
+        localStorage.setItem("sumScore",points);
+        localStorage.setItem("timesPlayed",1);
+    }else{
+        let sum = localStorage.getItem("sumScore");
+        sum = +sum;
+        sum += points;
+        console.log("suma"+sum);
+        let timesPlayed = localStorage.getItem("timesPlayed");
+        timesPlayed = +timesPlayed;
+        timesPlayed++;
+        console.log("timesPlayed"+timesPlayed);
+        let average = sum / timesPlayed;
+        endPoints.innerText = average;
+        localStorage.setItem("sumScore", sum);
+        localStorage.setItem("timesPlayed", timesPlayed);
+    }
+}
+function resetStatistic(){
+    localStorage.removeItem("sumScore");
+    localStorage.removeItem("timesPlayed");
+    localStorage.setItem("sumScore",0);
+    localStorage.setItem("timesPlayed",0);
+    
+}
