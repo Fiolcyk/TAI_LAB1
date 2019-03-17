@@ -192,6 +192,8 @@ let index = 0;
 let questionNumber = 1;
 let points = 0;
 let flag = [];
+let flagChosenAnswer = [];
+let flagCorrectAnswer = [];
 let flagTimer = [];
 
 let actualTimer = 0;
@@ -221,6 +223,7 @@ question.innerHTML = preQuestions[index].question;
 for(let i = 0; i < answers.length; i++){
     answers[i].innerHTML = preQuestions[index].answers[i];
     answers[i].addEventListener('click', doAction);
+
 }
 ///////////
 function doAction(event){
@@ -229,7 +232,9 @@ function doAction(event){
         pointsElem.innerText = points;
         markCorrect(event.target);
         tableAnswer[index].style.backgroundColor = "green";
-    }else{        
+        
+    }else{   
+            
         markInCorrect(event.target); 
         tableAnswer[index].style.backgroundColor = "red";
 
@@ -243,6 +248,9 @@ function doAction(event){
     disableAnswers();
     window.clearInterval(interval);
     flag[index] = "true";
+    flagChosenAnswer[index] = event.path[0].value;
+    flagCorrectAnswer[index] = event.target.innerHTML;
+    console.log(event);
 }
 
 function nextQuestion(){
@@ -256,8 +264,20 @@ function nextQuestion(){
             answers[i].addEventListener('click', doAction);
         }    
     }
-};
-
+}
+function markChosenAnswers(){
+    if(flagChosenAnswer[index] != null)
+        if(flagCorrectAnswer[index] === preQuestions[index].correct_answer){
+            answers[flagChosenAnswer[index]].style.backgroundColor = "green";
+        }else{
+            answers[flagChosenAnswer[index]].style.backgroundColor = "red";
+            for(let i=0;i<answers.length;i++){
+                if(answers[i].textContent === preQuestions[index].correct_answer){
+                    answers[i].style.backgroundColor = "green";
+                }
+            } 
+        }
+}
 function markCorrect(event){
     event.style.backgroundColor = "green";
 }
@@ -311,16 +331,16 @@ function retakeQuiz(){
     results.style.display = "none";
     
 }
+//
 function endGame(){
     let counter = 0;
     for(let i=0;i<flag.length;i++){
         if(flag[i]==="true"){
             counter ++;
         }
-        if(counter == 4){
+        if(counter == preQuestions.length){
             results.style.display = "block";
-            next.style.display = "none";
-            previous.style.display = "none";
+            
             saveAveragePoints();
             actualGamePoints.innerText = points;
         }
@@ -338,6 +358,7 @@ function nextClick(){
         checkFlag();  
         restartInterval();
         startInterval();
+        markChosenAnswers();
     }
     endGame();
 }
@@ -352,13 +373,18 @@ function previousClick(){
         checkFlag();
         restartInterval();
         startInterval();
+        markChosenAnswers();
     }
     endGame();
 }
 // First operation in timer
 function startInterval(){
+    if(flag[index] !== "true"){
     progress.style.width = current_progress[index]+"%";
     interval = setInterval(updateInterval, 20);
+    }else{
+        updateInterval();
+    }
 }
 
 // Interval timer
@@ -369,7 +395,7 @@ function updateInterval(){
         window.clearInterval(interval);
         disableAnswers();
     }
-    
+    // change color
     if (current_progress[index] > 75){
         progress.classList.add("bg-danger");
         progress.classList.remove("bg-warning");
@@ -384,6 +410,7 @@ function updateInterval(){
         progress.classList.remove("bg-danger");
     }
 
+    // second TIMER
     startTimer[index]-= 0.1;
     actualTimer = startTimer[index]/5;
     if(actualTimer>0){
@@ -398,7 +425,6 @@ function updateInterval(){
 function restartInterval(){
     actualTimer = 0;
     window.clearInterval(interval);
-    //interval = null;
     progress.style.width = current_progress[index]+"%";
 
 }
