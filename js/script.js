@@ -184,26 +184,45 @@ let endPoints = document.querySelector('.userScorePoint');
 let reset = document.querySelector('.reset');
 let actualGamePoints = document.querySelector('.actualGamePoints');
 let userTimesPlayed = document.querySelector('.userTimesPlayed');
+let progress = document.querySelector('.progress');
+let userScoreReset = document.querySelector(".userScoreReset");
+let timerToEnd = document.querySelector('.timerToEnd');
+
 let index = 0;
 let questionNumber = 1;
 let points = 0;
 let flag = [];
-let userScoreReset = document.querySelector(".userScoreReset");
+let flagTimer = [];
+
+let actualTimer = 0;
+
+let current_progress = [];
+for(let i = 0; i < 20;i++){
+    current_progress[i] = 0;
+}
+let startTimer = [];
+for(let i = 0; i < 20;i++){
+    startTimer[i] = 100;
+}
 
 // interval timer
-interval = setInterval(updateInterval,1000);
+startInterval();
 
 // Action onClick buttons
 restart.addEventListener('click',retakeQuiz);
 next.addEventListener('click',nextClick);
 previous.addEventListener('click',previousClick);
 reset.addEventListener('click',resetStatistic);
+
+
+///////////
+// First question and answer after open page
 question.innerHTML = preQuestions[index].question;
 for(let i = 0; i < answers.length; i++){
     answers[i].innerHTML = preQuestions[index].answers[i];
     answers[i].addEventListener('click', doAction);
 }
-
+///////////
 function doAction(event){
     if(event.target.innerHTML === preQuestions[index].correct_answer){
         points++;
@@ -220,8 +239,9 @@ function doAction(event){
             }
         }
     }
+
     disableAnswers();
-    
+    window.clearInterval(interval);
     flag[index] = "true";
 }
 
@@ -294,7 +314,7 @@ function retakeQuiz(){
 function endGame(){
     let counter = 0;
     for(let i=0;i<flag.length;i++){
-        if(flag[i]=="true"){
+        if(flag[i]==="true"){
             counter ++;
         }
         if(counter == 4){
@@ -305,11 +325,9 @@ function endGame(){
             actualGamePoints.innerText = points;
         }
     }  
-   
-    
 }
-
- function nextClick(){
+// every next button action
+function nextClick(){
     if(index < preQuestions.length -1 ){
         incIndex();
         restartColor();
@@ -317,11 +335,13 @@ function endGame(){
         enableAnswers();
         questionNumber++;
         NumberQuestion();
-        checkFlag();     
+        checkFlag();  
+        restartInterval();
+        startInterval();
     }
     endGame();
 }
-
+// every previous button action
 function previousClick(){
     if(index >0){
         index --;
@@ -330,17 +350,62 @@ function previousClick(){
         questionNumber--;
         NumberQuestion();
         checkFlag();
+        restartInterval();
+        startInterval();
     }
     endGame();
 }
-function updateInterval(){
-    
+// First operation in timer
+function startInterval(){
+    progress.style.width = current_progress[index]+"%";
+    interval = setInterval(updateInterval, 20);
 }
 
-function saveAveragePoints(){
+// Interval timer
+function updateInterval(){
+    progress.style.width = current_progress[index] +"%";
+    current_progress[index] += 0.1;
+    if(current_progress[index] >= 100){
+        window.clearInterval(interval);
+        disableAnswers();
+    }
+    
+    if (current_progress[index] > 75){
+        progress.classList.add("bg-danger");
+        progress.classList.remove("bg-warning");
+        progress.classList.remove("bg-success");
+    }else if(current_progress[index] > 50){
+        progress.classList.add("bg-warning");
+        progress.classList.remove("bg-danger");
+        progress.classList.remove("bg-success");
+    }else if(current_progress[index] > 0){
+        progress.classList.add("bg-success");
+        progress.classList.remove("bg-warning");
+        progress.classList.remove("bg-danger");
+    }
 
+    startTimer[index]-= 0.1;
+    actualTimer = startTimer[index]/5;
+    if(actualTimer>0){
+    timerToEnd.innerText = Math.round(actualTimer * 1) / 1;
+    }else{
+        timerToEnd.innerText = " Minął czas! Pytanie niezaliczone!";
+        tableAnswer[index].style.backgroundColor = "yellow";
+        flag[index] = "true";
+    }
+}
+// Restart timer
+function restartInterval(){
+    actualTimer = 0;
+    window.clearInterval(interval);
+    //interval = null;
+    progress.style.width = current_progress[index]+"%";
+
+}
+// Save player points in LocalStorage
+function saveAveragePoints(){
     if( localStorage.getItem("sumScore") === null && localStorage.getItem("timesPlayed") === null){
-        localStorage.setItem("sumScore",points);
+        localStorage.setItem("sumScore", points);
         localStorage.setItem("timesPlayed",1);
     }else{
         let sum = localStorage.getItem("sumScore");
@@ -358,12 +423,11 @@ function saveAveragePoints(){
         localStorage.setItem("timesPlayed", timesPlayed);
     }
 }
-
+// Reset all statistic in LocalStorage
 function resetStatistic(){
     localStorage.removeItem("sumScore");
     localStorage.removeItem("timesPlayed");
     localStorage.setItem("sumScore",0);
     localStorage.setItem("timesPlayed",0);
     userScoreReset.innerHTML = '<span class="userScoreResetText">Twoje statystyki zostały zresetowane</span>';
-    
 }
